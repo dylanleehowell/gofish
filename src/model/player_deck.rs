@@ -1,18 +1,18 @@
-use super::{card::Card, rank::Rank};
+use super::{card::Card, player_name::PlayerName, rank::Rank};
 use std::collections::HashMap;
 use string_builder;
 
 #[derive(Debug, Eq, PartialEq, Hash)]
 pub struct PlayerDeck {
     pub cards: Vec<Card>,
-    pub name: String,
+    pub name: PlayerName,
 }
 
 impl PlayerDeck {
-    pub fn from_name(name: &str) -> PlayerDeck {
+    pub fn from_name(name: PlayerName) -> PlayerDeck {
         PlayerDeck {
             cards: Vec::new(),
-            name: String::from(name),
+            name: name,
         }
     }
     pub fn get_unbooked_rank_counts(&self) -> Vec<(Rank, usize)> {
@@ -32,7 +32,7 @@ impl PlayerDeck {
         rank_map_vec.sort_by_key(|elem| elem.0);
         return rank_map_vec;
     }
-    pub fn get_books(&self) -> Vec<(&Rank, &String)> {
+    pub fn get_books(&self) -> Vec<(&Rank, &PlayerName)> {
         let mut books = Vec::new();
         let mut rank_map = HashMap::new();
         for card in &self.cards {

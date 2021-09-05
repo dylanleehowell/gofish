@@ -1,12 +1,12 @@
 mod model;
-use model::{card::Card, deck::Deck, player_deck::PlayerDeck, rank::Rank};
+use model::{card::Card, deck::Deck, player_deck::PlayerDeck, player_name::PlayerName, rank::Rank};
 use rand::{seq::SliceRandom, thread_rng};
 use std::io::{self, prelude::*, Write};
 
 fn main() {
     let mut main_deck = Deck::default().cards;
-    let mut user_deck = PlayerDeck::from_name("You");
-    let mut foe_deck = PlayerDeck::from_name("Foe");
+    let mut user_deck = PlayerDeck::from_name(PlayerName::YOU);
+    let mut foe_deck = PlayerDeck::from_name(PlayerName::FOE);
     deal_cards(&mut main_deck, &mut user_deck, &mut foe_deck);
     loop {
         print_books(&user_deck, &foe_deck);
@@ -34,7 +34,7 @@ fn print_books(user_deck: &PlayerDeck, foe_deck: &PlayerDeck) {
     if books.is_empty() {
         return;
     }
-    let mut books_iter: Vec<(&Rank, &String)> = books.into_iter().collect();
+    let mut books_iter: Vec<(&Rank, &PlayerName)> = books.into_iter().collect();
     books_iter.sort_by_key(|elem| elem.0);
     let dashes = "--------------------------------";
     println!("{}\nBooks:", dashes);
@@ -49,7 +49,7 @@ fn print_books(user_deck: &PlayerDeck, foe_deck: &PlayerDeck) {
     println!("{}", dashes);
 }
 
-fn get_winner<'a>(deck_1: &'a PlayerDeck, deck_2: &'a PlayerDeck) -> &'a str {
+fn get_winner<'a>(deck_1: &'a PlayerDeck, deck_2: &'a PlayerDeck) -> &'a PlayerName {
     return [deck_1.get_books(), deck_2.get_books()]
         .iter()
         .max_by(|a, b| a.len().cmp(&b.len()))
@@ -114,10 +114,9 @@ fn get_foe_rank_choice(foe_deck: &mut PlayerDeck) -> Option<Rank> {
 
 fn ask(asking_deck: &mut PlayerDeck, vulnerable_cards: &mut Vec<Card>, deck_cards: &mut Vec<Card>) {
     loop {
-        let asked_rank = match &asking_deck.name[..] {
-            "You" => get_user_rank_choice(asking_deck),
-            "Foe" => get_foe_rank_choice(asking_deck),
-            _ => Some(Rank::ACE),
+        let asked_rank = match asking_deck.name {
+            PlayerName::YOU => get_user_rank_choice(asking_deck),
+            PlayerName::FOE => get_foe_rank_choice(asking_deck),
         };
         let rank_val: Rank;
         match asked_rank {
