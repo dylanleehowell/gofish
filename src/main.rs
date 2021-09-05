@@ -14,10 +14,8 @@ fn main() {
             println!("{} won the game.", get_winner(&user_deck, &foe_deck));
             break ();
         }
-        let mut rank = get_user_rank_choice(&mut user_deck);
-        ask(&mut user_deck, &mut foe_deck.cards, &mut main_deck, rank);
-        rank = get_foe_rank_choice(&mut foe_deck);
-        ask(&mut foe_deck, &mut user_deck.cards, &mut main_deck, rank);
+        ask(&mut user_deck, &mut foe_deck.cards, &mut main_deck);
+        ask(&mut foe_deck, &mut user_deck.cards, &mut main_deck);
     }
 }
 
@@ -114,41 +112,44 @@ fn get_foe_rank_choice(foe_deck: &mut PlayerDeck) -> Option<Rank> {
     return Some(unbooked_ranks.choose(&mut thread_rng()).unwrap().0);
 }
 
-fn ask(
-    asking_deck: &mut PlayerDeck,
-    vulnerable_cards: &mut Vec<Card>,
-    deck_cards: &mut Vec<Card>,
-    asked_rank: Option<Rank>,
-) {
-    let rank_val: Rank;
-    match asked_rank {
-        Some(r) => {
-            rank_val = r;
+fn ask(asking_deck: &mut PlayerDeck, vulnerable_cards: &mut Vec<Card>, deck_cards: &mut Vec<Card>) {
+    loop {
+        let asked_rank = match &asking_deck.name[..] {
+            "You" => get_user_rank_choice(asking_deck),
+            "Foe" => get_foe_rank_choice(asking_deck),
+            _ => Some(Rank::ACE),
+        };
+        let rank_val: Rank;
+        match asked_rank {
+            Some(r) => {
+                rank_val = r;
+            }
+            None => {
+                println!("{} had nothing to ask for.", asking_deck.name);
+                go_fish(&mut asking_deck.cards, deck_cards);
+                return;
+            }
         }
-        None => {
-            println!("{} had nothing to ask for.", asking_deck.name);
+        println!("{} asked for {}.", &asking_deck.name, &rank_val);
+        let found_cards: Vec<Card> = vulnerable_cards
+            .iter()
+            .filter(|card| card.rank == rank_val)
+            .cloned()
+            .collect();
+        if found_cards.len() > 0 {
+            println!("{} took {} card(s).", asking_deck.name, found_cards.len());
+            for card in found_cards {
+                let index = vulnerable_cards
+                    .iter()
+                    .position(|vul_card| *vul_card == card)
+                    .unwrap();
+                vulnerable_cards.swap_remove(index);
+                asking_deck.cards.push(card);
+            }
+        } else {
             go_fish(&mut asking_deck.cards, deck_cards);
-            return;
+            break;
         }
-    }
-    println!("{} asked for {}.", &asking_deck.name, &rank_val);
-    let found_cards: Vec<Card> = vulnerable_cards
-        .iter()
-        .filter(|card| card.rank == rank_val)
-        .cloned()
-        .collect();
-    if found_cards.len() > 0 {
-        println!("{} took {} card(s).", asking_deck.name, found_cards.len());
-        for card in found_cards {
-            let index = vulnerable_cards
-                .iter()
-                .position(|vul_card| *vul_card == card)
-                .unwrap();
-            vulnerable_cards.swap_remove(index);
-            asking_deck.cards.push(card);
-        }
-    } else {
-        go_fish(&mut asking_deck.cards, deck_cards);
     }
 }
 
