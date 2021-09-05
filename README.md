@@ -9,3 +9,8 @@ An attempt to learn rust syntax by making a humble card game.
 # Resources
 * [Go Fish](https://en.wikipedia.org/wiki/Go_Fish)
 * [Rust](https://www.rust-lang.org/)
+
+# TODO
+* Unit tests
+* Improve NPC
+* Improve UI/UX
