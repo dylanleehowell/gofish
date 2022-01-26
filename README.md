@@ -1,7 +1,8 @@
-![workflow badge](https://github.com/dylanleehowell/gofish/actions/workflows/rust.yml/badge.svg)
-
 # gofish
 An attempt to learn rust syntax by making a humble card game.
+
+[![workflow badge](https://github.com/dylanleehowell/gofish/actions/workflows/rust.yml/badge.svg)](https://github.com/dylanleehowell/gofish/actions/workflows/rust.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Gameplay
 * Game begins by distributing cards to you and an NPC
