@@ -1,3 +1,5 @@
+![workflow badge](https://github.com/dylanleehowell/gofish/actions/workflows/rust.yml/badge.svg)
+
 # gofish
 An attempt to learn rust syntax by making a humble card game.
 
