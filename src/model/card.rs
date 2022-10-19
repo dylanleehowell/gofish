@@ -1,4 +1,4 @@
-use super::{rank::Rank, suit::Suit};
+use super::enums::{Rank, Suit};
 use std::fmt::{Display, Formatter, Result};
 
 #[derive(Debug, Eq, PartialEq, Hash, Clone, Copy)]

@@ -1,4 +1,5 @@
-use super::{card::Card, player_name::PlayerName, rank::Rank};
+use super::card::Card;
+use super::enums::{PlayerName, Rank};
 use std::collections::HashMap;
 use std::fmt::Display;
 use string_builder;

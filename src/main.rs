@@ -1,5 +1,5 @@
 mod model;
-use model::{card::Card, deck::Deck, player_deck::PlayerDeck, player_name::PlayerName, rank::Rank};
+use model::{card::Card, deck::Deck, enums::PlayerName, enums::Rank, player_deck::PlayerDeck};
 use rand::{seq::SliceRandom, thread_rng};
 use std::io::{self, prelude::*, Write};
 

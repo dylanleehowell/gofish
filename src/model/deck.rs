@@ -1,4 +1,5 @@
-use super::{card::Card, rank::Rank, suit::Suit};
+use super::card::Card;
+use super::enums::{Rank, Suit};
 use rand::{seq::SliceRandom, thread_rng};
 use strum::IntoEnumIterator;
 
