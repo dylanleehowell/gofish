@@ -1,5 +1,6 @@
 use super::{card::Card, player_name::PlayerName, rank::Rank};
 use std::collections::HashMap;
+use std::fmt::Display;
 use string_builder;
 
 #[derive(Debug, Eq, PartialEq, Hash)]
@@ -49,7 +50,7 @@ impl PlayerDeck {
     }
 }
 
-impl std::fmt::Display for PlayerDeck {
+impl Display for PlayerDeck {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut counts = HashMap::new();
         for card in &self.cards {

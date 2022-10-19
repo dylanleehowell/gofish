@@ -82,7 +82,7 @@ fn get_user_rank_choice(user_deck: &mut PlayerDeck) -> Option<Rank> {
             println!("{}.\t{}\t({}/4)", pos + 1, rank.0, rank.1);
         }
         match io::stdin().read_line(&mut option) {
-            Ok(_n) => {}
+            Ok(_) => {}
             Err(error) => println!("Error getting input: {}", error),
         }
         match &option.trim().parse::<usize>() {

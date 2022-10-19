@@ -1,4 +1,5 @@
 use super::{rank::Rank, suit::Suit};
+use std::fmt::{Display, Formatter, Result};
 
 #[derive(Debug, Eq, PartialEq, Hash, Clone, Copy)]
 pub struct Card {
@@ -6,8 +7,8 @@ pub struct Card {
     pub suit: Suit,
 }
 
-impl std::fmt::Display for Card {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for Card {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(f, "{} of {}", self.rank, self.suit)
     }
 }
