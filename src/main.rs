@@ -1,4 +1,6 @@
+mod functions;
 mod model;
+use functions::fishing;
 use model::{card::Card, deck::Deck, enums::PlayerName, enums::Rank, player_deck::PlayerDeck};
 use rand::{seq::SliceRandom, thread_rng};
 use std::io::{self, prelude::*, Write};
@@ -125,7 +127,7 @@ fn ask(asking_deck: &mut PlayerDeck, vulnerable_cards: &mut Vec<Card>, deck_card
             }
             None => {
                 println!("{} had nothing to ask for.", asking_deck.name);
-                go_fish(&mut asking_deck.cards, deck_cards);
+                fishing::go_fish(&mut asking_deck.cards, deck_cards, None);
                 return;
             }
         }
@@ -146,15 +148,13 @@ fn ask(asking_deck: &mut PlayerDeck, vulnerable_cards: &mut Vec<Card>, deck_card
                 asking_deck.cards.push(card);
             }
         } else {
-            go_fish(&mut asking_deck.cards, deck_cards);
-            break;
+            let found_it_fishing =
+                fishing::go_fish(&mut asking_deck.cards, deck_cards, Some(&rank_val));
+            if found_it_fishing {
+                println!("{} found it fishing 🎣! ", asking_deck.name);
+                continue;
+            }
+            return;
         }
-    }
-}
-
-fn go_fish(asking: &mut Vec<Card>, deck_cards: &mut Vec<Card>) {
-    println!("Go fish!");
-    if let Some(card) = deck_cards.pop() {
-        asking.push(card);
     }
 }
