@@ -1,3 +1,5 @@
+use std::fmt::{self, Display, Formatter};
+
 #[derive(
     Debug,
     Hash,
@@ -43,12 +45,23 @@ pub enum Rank {
     KING,
 }
 
-#[derive(
-    Debug, strum_macros::Display, strum_macros::EnumIter, Copy, Clone, Eq, PartialEq, Hash,
-)]
+#[derive(Debug, strum_macros::EnumIter, Copy, Clone, Eq, PartialEq, Hash)]
 pub enum Suit {
     HEARTS,
     DIAMONDS,
     SPADES,
     CLUBS,
+}
+
+impl Display for Suit {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let symbol = match self {
+            //  (♣), diamonds (♦), hearts (♥), and spades (♠).
+            Suit::CLUBS => "♣",
+            Suit::DIAMONDS => "♦",
+            Suit::HEARTS => "♥",
+            Suit::SPADES => "♠️",
+        };
+        write!(f, "{symbol}")
+    }
 }

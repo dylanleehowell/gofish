@@ -39,7 +39,7 @@ fn print_books(user_deck: &PlayerDeck, foe_deck: &PlayerDeck) {
     let mut books_iter: Vec<(&Rank, &PlayerName)> = books.into_iter().collect();
     books_iter.sort_by_key(|elem| elem.0);
     let dashes = "--------------------------------";
-    println!("{}\nBooks:", dashes);
+    println!("{dashes}\nBooks:");
     for book in books_iter {
         println!("{}\t{}", book.0, book.1);
     }
